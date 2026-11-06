@@ -41,4 +41,8 @@ public class LinkEntity {
         this.createdAt = createdAt;
         this.active = true;
     }
+
+    public void deactivate() {
+        this.active = false;
+    }
 }

@@ -36,6 +36,13 @@ public class LinkService {
         return link.getOriginalUrl();
     }
 
+    @Transactional
+    public void delete(String shortCode) {
+        LinkEntity link = linkRepository.findByShortCode(shortCode)
+                .orElseThrow(LinkNotFoundException::new);
+        link.deactivate();
+    }
+
     private String generateUniqueCode() {
         for (int i = 0; i < MAX_GENERATION_ATTEMPTS; i++) {
             String shortCode = shortCodeGenerator.generate();

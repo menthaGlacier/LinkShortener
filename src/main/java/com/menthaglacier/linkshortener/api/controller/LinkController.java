@@ -8,6 +8,8 @@ import com.menthaglacier.linkshortener.core.service.LinkService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,13 @@ public class LinkController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LinkResponse createLink(@Valid @RequestBody LinkCreateRequest linkCreateRequest) {
+    public LinkResponse create(@Valid @RequestBody LinkCreateRequest linkCreateRequest) {
         return linkMapper.toResponse(linkService.create(linkCreateRequest.originalUrl()));
+    }
+
+    @DeleteMapping("/{shortCode}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String shortCode) {
+        linkService.delete(shortCode);
     }
 }
